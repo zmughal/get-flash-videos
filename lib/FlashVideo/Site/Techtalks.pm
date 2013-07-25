@@ -11,9 +11,9 @@ sub find_video {
   my $title  = ($browser->content =~ /<h2 class="title">([^<]+)/)[0];
 
   my $streamer = ($browser->content =~ /netConnectionUrl:\s*["']([^"']+)/)[0];
-  my $playpath = ($browser->content =~ /<a class="presenter" href=["']([^"']+)/)[0];
+  my $playpath = ($browser->content =~ /<a\s+class="rtmp"\s+href=["']([^"']+)/)[0];
   my $swfUrl = 'http://techtalks.tv' .
-	  ($browser->content =~ m{"a\.presenter",\s+["']([^"']+)})[0];
+                  ($browser->content =~ m{url:\s+["']([^"']+)})[0];
   # NOTE This will not download the slides
 
   my $data = {
