@@ -26,7 +26,10 @@ sub find_video {
     return $max_size_video->{src}, $filename;
   } elsif( $max_size_video->{proto} eq 'rtmp' ) {
     my $streamer = $max_size_video->{streamer};
-    system('vlc', $streamer, "--avio-options={rtmp_playpath=$max_size_video->{src}}" );
+    my @cmd = ('vlc', $streamer, "--avio-options={rtmp_playpath=$max_size_video->{src}}",
+        "--sout=file/avi:$filename.avi",
+        "-I", "ncurses");
+    system @cmd;
     return +{
       app      => (split m{/}, $streamer)[-1],
       rtmp     => $streamer,
