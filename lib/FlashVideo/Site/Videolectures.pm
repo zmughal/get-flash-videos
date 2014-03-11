@@ -33,7 +33,8 @@ sub find_video {
     my $smil_content = $browser->get( $smil_url )->content;
     my $xml_data = from_xml( $smil_content, KeyAttr => 'video' ); # treat video tag as list
     my $videos = $xml_data->{body}{switch}{video};
-    $videos = [  grep { $_->{proto} eq 'rtmp' } @$videos ]; # only keep the rtmp ones
+    # only keep the rtmp ones, because http seems to be returning 403 Forbidden
+    $videos = [  grep { $_->{proto} eq 'rtmp' } @$videos ];
     my $max_size = max map { 0 + $_->{size} } @$videos;
     my $max_size_video = first {  $_->{size} == $max_size } @$videos;
     my $filename = title_to_filename("$author - $title$part_fname_append");
